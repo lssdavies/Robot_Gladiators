@@ -1,18 +1,16 @@
 /*This ask the user for their robots name and also establishes variables for healt and attack*/
 var playerName = window.prompt("What is your robot's name?");
-
 var playerHealth = 100;
 var playerAttack = 10;
 var playerMoney = 10;
 
-console.log(playerName, playerHealth, playerAttack );
-
 //This is the enemy's robot
-var enemyName = "Roberto";
+var enemyNames = ["Roberto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
-var fight = function()  {
+//This is the main fight function
+var fight = function(enemyName)  {
     window.alert("Welcome to Robot Gladiators");
     var promptFight = window.prompt("Would you like to Fight or Skip this battle");
     console.log(promptFight);
@@ -63,4 +61,6 @@ var fight = function()  {
         window.alert("You need to choose a valid option. Try again!   ")
     }
 }
-fight();
+for(var i = 0; i < enemyNames.length; i++) {
+    fight(enemyNames[i]);
+  }
