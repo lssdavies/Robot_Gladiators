@@ -75,9 +75,9 @@ var fight = function(enemy) {
       if (enemy.health <= 0) {
         window.alert(enemy.name + " has died!");
 
-        // award player money for winning
+        // award player money and points for winning
         playerInfo.money = playerInfo.money + 20;
-
+        
         // leave while() loop since enemy is dead
         break;
       } else {
@@ -154,24 +154,36 @@ for (var i = 0; i < enemyInfo.length; i++) {
 //play again
 endGame();
 };
-// function to end the entire game
+
+/* function to end the entire checking local storage for highscore and determining if the player has a new high score*/
 var endGame = function() {
-if (playerInfo.health > 0) {
-window.alert("Great job, you've survived the game! You now have a score")
-}
-else {
-window.alert("You've lost your robot in battle!");
-}
+  window.alert("The game has now ended. Let's see how you did!");
 
-//ask player if they will like to play again
-var playAgainConfirm = window.confirm("Would you like to play again?")
+  // check localStorage for high score, if it's not there, use 0
+  var highScore = localStorage.getItem("highscore");
+  if (highScore === null) {
+    highScore = 0;
+  }
+  // if player has more money than the high score, player has new high score!
+  if (playerInfo.money > highScore) {
+    localStorage.setItem("highscore", playerInfo.money);
+    localStorage.setItem("name", playerInfo.name);
 
-if (playAgainConfirm) {
-startGame();
-}
-else{
-window.alert("Thank you for playing Robot Gladiators! Come back soon!");
-}
+    alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
+  } 
+  else {
+    alert(playerInfo.name + " did not beat the high score of " + highScore + ". Maybe next time!");
+  }
+
+  // ask player if they'd like to play again
+  var playAgainConfirm = window.confirm("Would you like to play again?");
+
+  if (playAgainConfirm) {
+    startGame();
+  } 
+  else {
+    window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+  }
 };
 
 // go to shop between battles function
@@ -228,6 +240,7 @@ var playerInfo = {
     this.health = 100;
     this.attack = 10;
     this.money = 10;
+    this.score = 0;
   }, //commma not semi-colon : will break code
   refillHealth: function()  {
     if (this.money >= 7)  {
